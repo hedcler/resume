@@ -1,0 +1,20 @@
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}
+}
+
+@mixin breakpoint ($value) {
+	@if $value == 'phone' {
+		@media only screen and (max-width : 767px) { @content; }
+	}
+
+	@else if $value == 'desktop' {
+		@media only screen and (min-width: 768px) { @content }
+	}
+
+	@else {
+		@media only screen and (max-width: $value) { @content; }
+	}
+}

@@ -1,0 +1,6 @@
+[class^="icon-"] {
+    display: inline-block;
+}
+
+@import "icons";
+@include sprites($spritesheet-sprites);
