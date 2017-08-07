@@ -54,7 +54,7 @@ gulp.task('sprites', function() {
     // Pipe image stream
     spriteData.img
       .pipe(gulp.dest('.tmp/images'))
-      .pipe(gulp.dest('dist/images'))
+      .pipe(gulp.dest('docs/images'))
 
     // Pipe CSS stream
     spriteData.css
@@ -79,7 +79,7 @@ gulp.task('javascript', function () {
       console.log(error.stack);
       this.emit('end');
     })
-    .pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('docs/js'))
     .pipe($.if(isDevelopment, $.sourcemaps.init({loadMaps: true})))
     .pipe($.if(isDevelopment, $.sourcemaps.write('.')))
     .pipe(gulp.dest('.tmp/js'));
@@ -103,7 +103,7 @@ gulp.task('html', ['javascript', 'stylesheet'], function () {
     .pipe(assets.restore())
     .pipe($.useref())
     //.pipe($.if('*.html', $.minifyHtml({comments: true, conditionals: true, spare: true, quotes: true, dom: true, loose: true})))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('docs'));
 });
 
 gulp.task('images', function () {
@@ -115,7 +115,7 @@ gulp.task('images', function () {
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
   })))*/
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('docs/images'));
 });
 
 gulp.task('fonts', function () {
@@ -124,7 +124,7 @@ gulp.task('fonts', function () {
     filter: '**/*.{eot,svg,ttf,woff,woff2}'
   }).concat(pattern))
     .pipe(gulp.dest('.tmp/fonts'))
-    .pipe(gulp.dest('dist/fonts'));
+    .pipe(gulp.dest('docs/fonts'));
 });
 
 gulp.task('extras', function () {
@@ -133,10 +133,10 @@ gulp.task('extras', function () {
     '!app/*.html'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'));
+  }).pipe(gulp.dest('docs'));
 });
 
-gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
+gulp.task('clean', require('del').bind(null, ['.tmp', 'docs']));
 
 gulp.task('serve', ['stylesheet', 'javascript', 'fonts'], function () {
   browserSync({
@@ -164,12 +164,12 @@ gulp.task('serve', ['stylesheet', 'javascript', 'fonts'], function () {
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
-gulp.task('serve:dist', function () {
+gulp.task('serve:docs', function () {
   browserSync({
     notify: false,
     port: 9000,
     server: {
-      baseDir: ['dist']
+      baseDir: ['docs']
     }
   });
 });
@@ -193,7 +193,7 @@ gulp.task('wiredep', function () {
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras'], function () {
-  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+  return gulp.src('docs/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', ['clean'], function () {
